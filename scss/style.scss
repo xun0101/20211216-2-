@@ -1,0 +1,218 @@
+// 會續需要的bootstrap partials
+// 須注意順序
+@import './functions';
+@import './variables';
+@import './mixins';
+@import './vendor/rfs';
+
+*{
+  transition: 1s;
+}
+
+body{
+  padding-bottom: 50px;
+}
+
+.box1{
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  color: white;
+  text-align: center;
+  line-height: 100px;
+}
+
+h1,
+h2,
+h3,
+h4{
+  margin: 20px 0;
+}
+
+.container{
+  margin-bottom: 2rem;
+}
+
+h1{
+  border-bottom: 2px solid #333;
+}
+
+p{
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+}
+
+/* 自定義-色彩__________________________________________*/
+.custom-color-1{
+  // 直接使用變數
+  color: $gray-300;
+  // 使用map-get()從物件取出想要的值
+  color: map-get($grays, 300);
+}
+
+/* 混合顏色 */
+// mix為內建函式，可將某顏色混白色或黑色
+.mix-light-color{
+  background: mix(white, red, 10%);
+}
+
+.mix-dark-color{
+  background: mix(black, green, 10%);
+}
+
+// BS5 自訂函式，包裝了mix()
+.tint-color{
+  background: $primary;
+  // 與白色混
+  background: tint-color($primary, 50%);
+}
+
+.shade-color{
+  background: $primary;
+  // 與黑色混
+  background: shade-color($primary, 50%);
+}
+
+// lighten() darken() 內建函式，容易調過頭
+.lighten-color{
+  background: lighten(blue, 10%);
+}
+
+.darken-color{
+  background: darken(yellow, 10%);
+}
+
+/* 排版____________________________ */
+/*rwd min-width的寫法*/
+
+#section01{
+  .myClass-1{
+    width: 100px;
+    height: 100px;
+    background: black;
+  }
+
+  @include media-breakpoint-up(sm){
+    .myClass-1{
+      background: red;
+    }
+  }
+  @include media-breakpoint-up(md){
+    .myClass-1{
+      background: orange;
+    }
+  }
+  @include media-breakpoint-up(lg){
+    .myClass-1{
+      background: yellow;
+    }
+  }
+  @include media-breakpoint-up(xl){
+    .myClass-1{
+      background: green;
+    }
+  }
+  @include media-breakpoint-up(xxl){
+    .myClass-1{
+      background: blue;
+    }
+  }
+}
+
+/* rwd max-width的寫法 */
+
+#section01{
+  .myClass-2{
+    width: 100px;
+    height: 100px;
+    background: black;
+  }
+  @include media-breakpoint-down(md){
+    .myClass-2{
+      background: purple;
+    }
+  }
+}
+
+/* rwd 介於兩個斷點之間寫法 */
+#section01{
+  .myClass-3{
+    width: 100px;
+    height: 100px;
+    background: black;
+  }
+  @include media-breakpoint-between(md, lg){
+    .myClass-3{
+      background: red;
+    }
+  }
+  @include media-breakpoint-up(lg){
+    .myClass-3{
+      background: green;
+    }
+  }
+}
+
+@mixin make-container($gutter: $container-padding-x) {
+  --#{$variable-prefix}gutter-x: #{$gutter};
+  --#{$variable-prefix}gutter-y: 0;
+  width: 100%;
+  padding-right: var(--#{$variable-prefix}gutter-x, #{$gutter});
+  padding-left: var(--#{$variable-prefix}gutter-x, #{$gutter});
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.my-container{
+  @include make-container(50%);
+}
+
+/* RFS^___________________________^*/
+
+// 第一種方式 @include rfs()，第二參數預設為 font-size可以不加，!important 可加可不加
+.rwd-font-1{
+  @include rfs(1.5rem !important)
+}
+
+// 第二種方式 @include font-size()，!important 可加可不加
+.rwd-font-2{
+  @include font-size(1.5rem !important)
+}
+
+// rfs-fluid-value()函式，適用於滿版(沒有斷點)，!important 可加可不加
+.rwd-font-3{
+  font-size: rfs-fluid-value(1.5rem !important)
+}
+
+/* rwd padding */
+.rwd-padding-1{
+  @include rfs(3rem !important, padding)
+}
+
+.rwd-padding-2{
+  @include rfs(3rem !important)
+}
+
+.rwd-padding-3{
+  padding: rfs-fluid-value(1.5rem !important)
+}
+
+// rwd border-radius
+.rwd-border-radius-1{
+  @include rfs(3rem !important, border-radius)
+}
+
+// 第二種 border-radius沒有提供，須自訂
+.rwd-border-radius-2{
+  @include rfs(1.5rem !important)
+}
+
+.rwd-border-radius-3{
+  padding: rfs-fluid-value(1.5rem !important)
+}
+
+.box3{
+  @include width(10rem !important);
+  @include height(10rem !important);
+  background: #333;
+}
